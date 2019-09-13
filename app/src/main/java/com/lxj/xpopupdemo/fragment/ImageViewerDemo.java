@@ -136,7 +136,7 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+                    new XPopup.Builder(holder.itemView.getContext()).asImageShareViewer(imageView, position, list, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();

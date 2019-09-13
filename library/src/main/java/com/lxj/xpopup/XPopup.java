@@ -567,7 +567,7 @@ public class XPopup {
          */
         public ImageViewerPopupView asImageViewer(ImageView srcView, int currentPosition, List<Object> urls,
                                                   OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
-            return asImageViewer(srcView, currentPosition, urls, false,false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
+            return asImageViewer(srcView, currentPosition, urls, false, false, -1, -1, -1, true, srcViewUpdateListener, imageLoader);
         }
 
         /**
@@ -599,6 +599,26 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
+                    .isShowSaveButton(false)
+                    .setSrcViewUpdateListener(srcViewUpdateListener)
+                    .setXPopupImageLoader(imageLoader);
+            popupView.popupInfo = this.popupInfo;
+            return popupView;
+        }
+
+        public ImageViewerPopupView asImageShareViewer(ImageView srcView, int currentPosition, List<Object> urls,
+                                                       OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
+            popupType(PopupType.ImageViewer);
+            ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
+                    .setSrcView(srcView, currentPosition)
+                    .setImageUrls(urls)
+                    .isInfinite(false)
+                    .isShowPlaceholder(false)
+                    .setPlaceholderColor(-1)
+                    .setPlaceholderStrokeColor(-1)
+                    .setPlaceholderRadius(-1)
+                    .isShowSaveButton(true)
+                    .isShowShareButton(true)
                     .setSrcViewUpdateListener(srcViewUpdateListener)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;

@@ -43,6 +43,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.BlankView;
 import com.lxj.xpopup.widget.HackyViewPager;
 import com.lxj.xpopup.widget.PhotoViewContainer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected FrameLayout container;
     protected PhotoViewContainer photoViewContainer;
     protected BlankView placeholderView;
-    protected TextView tv_pager_indicator, tv_save;
+    protected TextView tv_pager_indicator, tv_save, tv_share;
     protected HackyViewPager pager;
     protected ArgbEvaluator argbEvaluator = new ArgbEvaluator();
     protected List<Object> urls = new ArrayList<>();
@@ -70,6 +71,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int placeholderStrokeColor = -1; // 占位View的边框色
     protected int placeholderRadius = -1; // 占位View的圆角
     protected boolean isShowSaveBtn = true; //是否显示保存按钮
+    protected boolean isShowShareBtn = true; //是否显示分享按钮
     protected boolean isShowIndicator = true; //是否页码指示器
     protected boolean isInfinite = false;//是否需要无限滚动
     protected View customView;
@@ -96,6 +98,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         super.initPopupContent();
         tv_pager_indicator = findViewById(R.id.tv_pager_indicator);
         tv_save = findViewById(R.id.tv_save);
+        tv_share = findViewById(R.id.tv_share);
         placeholderView = findViewById(R.id.placeholderView);
         photoViewContainer = findViewById(R.id.photoViewContainer);
         photoViewContainer.setOnDragChangeListener(this);
@@ -122,6 +125,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_save.setVisibility(GONE);
         } else {
             tv_save.setOnClickListener(this);
+        }
+        if (!isShowShareBtn) {
+            tv_share.setVisibility(GONE);
+        } else {
+            tv_share.setOnClickListener(this);
         }
     }
 
@@ -150,6 +158,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
             tv_pager_indicator.setText((posi + 1) + "/" + urls.size());
         }
         if (isShowSaveBtn) tv_save.setVisibility(VISIBLE);
+        if (isShowShareBtn) tv_share.setVisibility(VISIBLE);
     }
 
     private void addOrUpdateSnapshot() {
@@ -243,6 +252,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         }
         tv_pager_indicator.setVisibility(INVISIBLE);
         tv_save.setVisibility(INVISIBLE);
+        tv_share.setVisibility(INVISIBLE);
         pager.setVisibility(INVISIBLE);
         snapshotView.setVisibility(VISIBLE);
         photoViewContainer.isReleasing = true;
@@ -356,6 +366,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         return this;
     }
 
+    public ImageViewerPopupView isShowShareButton(boolean isShowShareBtn) {
+        this.isShowShareBtn = isShowShareBtn;
+        return this;
+    }
+
     public ImageViewerPopupView isInfinite(boolean isInfinite) {
         this.isInfinite = isInfinite;
         return this;
@@ -418,6 +433,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         tv_pager_indicator.setAlpha(1 - fraction);
         if (customView != null) customView.setAlpha(1 - fraction);
         if (isShowSaveBtn) tv_save.setAlpha(1 - fraction);
+        if (isShowShareBtn) tv_share.setAlpha(1 - fraction);
         photoViewContainer.setBackgroundColor((Integer) argbEvaluator.evaluate(fraction * .8f, bgColor, Color.TRANSPARENT));
     }
 
