@@ -36,6 +36,7 @@ import com.lxj.xpopup.R;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.enums.PopupStatus;
 import com.lxj.xpopup.interfaces.OnDragChangeListener;
+import com.lxj.xpopup.interfaces.OnShareImageListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopup.photoview.PhotoView;
@@ -62,6 +63,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected List<Object> urls = new ArrayList<>();
     protected XPopupImageLoader imageLoader;
     protected OnSrcViewUpdateListener srcViewUpdateListener;
+    protected OnShareImageListener mOnShareImageListener;
     protected int position;
     protected Rect rect = null;
     protected ImageView srcView; //动画起始的View，如果为null，移动和过渡动画效果会没有，只有弹窗的缩放功能
@@ -71,7 +73,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
     protected int placeholderStrokeColor = -1; // 占位View的边框色
     protected int placeholderRadius = -1; // 占位View的圆角
     protected boolean isShowSaveBtn = true; //是否显示保存按钮
-    protected boolean isShowShareBtn = true; //是否显示分享按钮
+    protected boolean isShowShareBtn = false; //是否显示分享按钮
     protected boolean isShowIndicator = true; //是否页码指示器
     protected boolean isInfinite = false;//是否需要无限滚动
     protected View customView;
@@ -129,7 +131,14 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (!isShowShareBtn) {
             tv_share.setVisibility(GONE);
         } else {
-            tv_share.setOnClickListener(this);
+            tv_share.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnShareImageListener != null) {
+                        mOnShareImageListener.onShareImage(position, urls.get(position).toString());
+                    }
+                }
+            });
         }
     }
 
@@ -325,6 +334,11 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
 
     public ImageViewerPopupView setSrcViewUpdateListener(OnSrcViewUpdateListener srcViewUpdateListener) {
         this.srcViewUpdateListener = srcViewUpdateListener;
+        return this;
+    }
+
+    public ImageViewerPopupView setOnShareImageListener(OnShareImageListener onShareImageListener) {
+        this.mOnShareImageListener = onShareImageListener;
         return this;
     }
 

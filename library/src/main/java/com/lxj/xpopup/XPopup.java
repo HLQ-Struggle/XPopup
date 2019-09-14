@@ -28,6 +28,7 @@ import com.lxj.xpopup.interfaces.OnCancelListener;
 import com.lxj.xpopup.interfaces.OnConfirmListener;
 import com.lxj.xpopup.interfaces.OnInputConfirmListener;
 import com.lxj.xpopup.interfaces.OnSelectListener;
+import com.lxj.xpopup.interfaces.OnShareImageListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupCallback;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
@@ -599,27 +600,27 @@ public class XPopup {
                     .setPlaceholderStrokeColor(placeholderStroke)
                     .setPlaceholderRadius(placeholderRadius)
                     .isShowSaveButton(isShowSaveBtn)
-                    .isShowSaveButton(false)
                     .setSrcViewUpdateListener(srcViewUpdateListener)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;
             return popupView;
         }
 
-        public ImageViewerPopupView asImageShareViewer(ImageView srcView, int currentPosition, List<Object> urls,
-                                                       OnSrcViewUpdateListener srcViewUpdateListener, XPopupImageLoader imageLoader) {
+        /**
+         * 大图浏览类型弹窗，多张图片使用场景 - 分享
+         *
+         * @param srcView
+         * @param currentPosition
+         * @param urls
+         * @param imageLoader
+         * @return
+         */
+        public ImageViewerPopupView asImageShareViewer(ImageView srcView, int currentPosition, List<Object> urls, OnShareImageListener onShareImageListener, XPopupImageLoader imageLoader) {
             popupType(PopupType.ImageViewer);
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
-                    .isInfinite(false)
-                    .isShowPlaceholder(false)
-                    .setPlaceholderColor(-1)
-                    .setPlaceholderStrokeColor(-1)
-                    .setPlaceholderRadius(-1)
-                    .isShowSaveButton(true)
-                    .isShowShareButton(true)
-                    .setSrcViewUpdateListener(srcViewUpdateListener)
+                    .setOnShareImageListener(onShareImageListener)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;
             return popupView;

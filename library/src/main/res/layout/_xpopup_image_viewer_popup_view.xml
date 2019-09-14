@@ -4,6 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.lxj.xpopup.widget.BlankView
+        android:id="@+id/placeholderView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+    <com.lxj.xpopup.widget.PhotoViewContainer
+        android:id="@+id/photoViewContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.lxj.xpopup.widget.HackyViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.lxj.xpopup.widget.PhotoViewContainer>
+
     <TextView
         android:id="@+id/tv_pager_indicator"
         android:layout_width="wrap_content"
@@ -34,30 +52,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top|right"
         android:layout_marginRight="25dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="36dp"
         android:paddingLeft="15dp"
         android:paddingBottom="15dp"
         android:text="@string/share"
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:visibility="invisible" />
-
-    <com.lxj.xpopup.widget.BlankView
-        android:id="@+id/placeholderView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="invisible" />
-
-    <com.lxj.xpopup.widget.PhotoViewContainer
-        android:id="@+id/photoViewContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.lxj.xpopup.widget.HackyViewPager
-            android:id="@+id/pager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </com.lxj.xpopup.widget.PhotoViewContainer>
 
 </FrameLayout>

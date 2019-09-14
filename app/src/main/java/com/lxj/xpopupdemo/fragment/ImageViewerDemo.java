@@ -1,15 +1,18 @@
 package com.lxj.xpopupdemo.fragment;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -18,6 +21,7 @@ import com.lxj.easyadapter.EasyAdapter;
 import com.lxj.easyadapter.ViewHolder;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.ImageViewerPopupView;
+import com.lxj.xpopup.interfaces.OnShareImageListener;
 import com.lxj.xpopup.interfaces.OnSrcViewUpdateListener;
 import com.lxj.xpopup.interfaces.XPopupImageLoader;
 import com.lxj.xpopupdemo.R;
@@ -60,16 +64,19 @@ public class ImageViewerDemo extends BaseFragment {
         list.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1551692956639&di=8ee41e070c6a42addfc07522fda3b6c8&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160413%2F75659e9b05b04eb8adf5b52669394897.jpg");
     }
 
+
     RecyclerView recyclerView;
     ImageView image1, image2;
     ViewPager pager;
-    Button btn_custom;
+    Button btn_custom, btn_share;
+
     @Override
     public void init(final View view) {
         image1 = view.findViewById(R.id.image1);
         image2 = view.findViewById(R.id.image2);
         pager = view.findViewById(R.id.pager);
         btn_custom = view.findViewById(R.id.btn_custom);
+        btn_share = view.findViewById(R.id.btn_share);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
@@ -78,11 +85,29 @@ public class ImageViewerDemo extends BaseFragment {
 
         Glide.with(this).load(url1).apply(new RequestOptions().placeholder(R.mipmap.ic_launcher_round).override(Target.SIZE_ORIGINAL).transform(new RoundedCorners(50))).into(image1);
         Glide.with(this).load(url2).into(image2);
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new XPopup.Builder(getContext())
+                        .asImageShareViewer(image1, 0, list,
+                                new OnShareImageListener() {
+                                    @Override
+                                    public void onShareImage(int position, String imageUrl) {
+                                        Toast.makeText(getContext(), "点击位置：" + position, Toast.LENGTH_SHORT).show();
+                                    }
+                                },
+                                new ImageLoader())
+                        .isShowIndicator(true)
+                        .isShowSaveButton(true)
+                        .isShowShareButton(true)
+                        .show();
+            }
+        });
         image1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new XPopup.Builder(getContext())
-                        .asImageViewer(image1, url1, true, -1, -1, 50, false,new ImageLoader())
+                        .asImageViewer(image1, url1, true, -1, -1, 50, false, new ImageLoader())
                         .show();
             }
         });
@@ -136,11 +161,11 @@ public class ImageViewerDemo extends BaseFragment {
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new XPopup.Builder(holder.itemView.getContext()).asImageShareViewer(imageView, position, list, new OnSrcViewUpdateListener() {
+                    new XPopup.Builder(holder.itemView.getContext()).asImageViewer(imageView, position, list, new OnSrcViewUpdateListener() {
                         @Override
                         public void onSrcViewUpdate(ImageViewerPopupView popupView, int position) {
                             RecyclerView rv = (RecyclerView) holder.itemView.getParent();
-                            popupView.updateSrcView((ImageView)rv.getChildAt(position));
+                            popupView.updateSrcView((ImageView) rv.getChildAt(position));
                         }
                     }, new ImageLoader())
                             .show();
@@ -175,19 +200,19 @@ public class ImageViewerDemo extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     new XPopup.Builder(getContext())
-                            .asImageViewer(imageView, position, list, true,false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
-                        @Override
-                        public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
-                            //1.pager更新当前显示的图片
-                            //当启用isInfinite时，position会无限增大，需要映射为当前ViewPager中的页
-                            int realPosi = position%list.size();
+                            .asImageViewer(imageView, position, list, true, false, -1, -1, -1, true, new OnSrcViewUpdateListener() {
+                                @Override
+                                public void onSrcViewUpdate(final ImageViewerPopupView popupView, final int position) {
+                                    //1.pager更新当前显示的图片
+                                    //当启用isInfinite时，position会无限增大，需要映射为当前ViewPager中的页
+                                    int realPosi = position % list.size();
 //                            Log.e("tag", "position: "+realPosi + " list size: "+list.size());
-                            pager.setCurrentItem(realPosi, false);
-                            //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
-                            //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
-                            popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
-                        }
-                    }, new ImageLoader())
+                                    pager.setCurrentItem(realPosi, false);
+                                    //2.更新弹窗的srcView，注意这里的position是list中的position，上面ViewPager设置了pageLimit数量，
+                                    //保证能拿到child，如果不设置pageLimit，ViewPager默认最多维护3个page，会导致拿不到child
+                                    popupView.updateSrcView((ImageView) pager.getChildAt(realPosi));
+                                }
+                            }, new ImageLoader())
                             .show();
                 }
             });
