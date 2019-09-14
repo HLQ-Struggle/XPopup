@@ -131,12 +131,9 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         if (!isShowShareBtn) {
             tv_share.setVisibility(GONE);
         } else {
-            tv_share.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnShareImageListener != null) {
-                        mOnShareImageListener.onShareImage(position, urls.get(position).toString());
-                    }
+            tv_share.setOnClickListener(v -> {
+                if (mOnShareImageListener != null) {
+                    mOnShareImageListener.onShareImage(position, urls.get(position - 1).toString());
                 }
             });
         }

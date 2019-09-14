@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
+        minSdkVersion 23
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
     }
@@ -16,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 
 }
@@ -30,12 +34,12 @@ dependencies {
 }
 
 publish {
-    userOrg = 'li-xiaojun'
-    groupId = 'com.lxj'
-    artifactId = 'xpopup'
-    publishVersion = '1.8.10-x'
-    repoName = 'jrepo'
+    userOrg = 'hlq-struggle'
+    groupId = 'com.hlq.xpopup'
+    artifactId = 'HLQ-Xpopup'
+    publishVersion = '0.0.2'
+    repoName = 'Xpopup for Android'
     desc = '功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout等组件，自带十几种效果良好的动画， 支持完全的UI和动画自定义！'
-    website = 'https://github.com/li-xiaojun/XPopup'
+    website = 'https://github.com/HLQ-Struggle/XPopup'
 }
 
