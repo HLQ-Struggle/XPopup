@@ -133,7 +133,7 @@ public class ImageViewerPopupView extends BasePopupView implements OnDragChangeL
         } else {
             tv_share.setOnClickListener(v -> {
                 if (mOnShareImageListener != null) {
-                    mOnShareImageListener.onShareImage(position, urls.get(position - 1).toString());
+                    mOnShareImageListener.onShareImage(position, urls.get(position).toString());
                 }
             });
         }

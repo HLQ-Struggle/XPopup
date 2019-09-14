@@ -43,3 +43,7 @@ publish {
     website = 'https://github.com/HLQ-Struggle/XPopup'
 }
 
+task Javadoc(type:Javadoc){
+    options.encoding = "utf-8"
+}
+
