@@ -37,8 +37,8 @@ publish {
     userOrg = 'hlq-struggle'
     groupId = 'com.hlq.xpopup'
     artifactId = 'HLQ-Xpopup'
-    publishVersion = '0.0.2'
-    repoName = 'Xpopup for Android'
+    publishVersion = '0.0.3'
+    repoName = 'maven'
     desc = '功能强大，UI简洁，交互优雅的通用弹窗！可以替代Dialog，PopupWindow，PopupMenu，BottomSheet，DrawerLayout等组件，自带十几种效果良好的动画， 支持完全的UI和动画自定义！'
     website = 'https://github.com/HLQ-Struggle/XPopup'
 }

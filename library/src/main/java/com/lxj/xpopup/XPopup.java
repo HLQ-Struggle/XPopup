@@ -620,6 +620,7 @@ public class XPopup {
             ImageViewerPopupView popupView = new ImageViewerPopupView(this.context)
                     .setSrcView(srcView, currentPosition)
                     .setImageUrls(urls)
+                    .isShowShareButton(true)
                     .setOnShareImageListener(onShareImageListener)
                     .setXPopupImageLoader(imageLoader);
             popupView.popupInfo = this.popupInfo;
